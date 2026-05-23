@@ -43,12 +43,13 @@ export const getDashboardSummary = async (req: Request, res: Response) => {
             }
         });
 
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        console.error("ERROR ASLI:", error);
+
         return res.status(500).json({
             success: false,
-            message: "Terjadi kesalahan saat mengambil data dashboard",
-            error: error
+            message: "Gagal mengambil pembicara",
+            error: error.message
         });
     }
 };
