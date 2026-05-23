@@ -1,47 +1,54 @@
 import { Request, Response } from 'express';
-import { prisma } from '../lib/db.js'; 
+// Pastikan kamu mengimpor prisma client milikmu, misalnya:
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export const getDashboardSummary = async (req: Request, res: Response) => {
     try {
-        // Mengambil semua data secara paralel agar lebih cepat
+        // Kita gunakan Promise.all agar 4 pencarian database ini berjalan bersamaan (lebih cepat)
         const [totalEvent, totalPembicara, totalKategori, upcomingEvents] = await Promise.all([
             prisma.event.count(),
             prisma.pembicara.count(),
             prisma.category.count(),
-            // Mengambil 5 event terdekat yang tanggalnya lebih dari hari ini
             prisma.event.findMany({
                 where: {
-                    dateEvent: {
-                        gte: new Date(), // gte = greater than or equal (hari ini dan ke depan)
+                    // Sesuaikan filter tanggal ini dengan format string yang ada di database-mu
+                    tanggal: {
+                        gte: new Date().toISOString(),
                     }
                 },
                 orderBy: {
-                    dateEvent: 'asc', // Urutkan dari yang paling dekat
+                    tanggal: 'asc', // Urutkan dari yang terdekat
                 },
-                take: 5, // Batasi hanya menampilkan 5 data
+                take: 5, // Ambil maksimal 5 event
                 select: {
                     id: true,
-                    name: true,
-                    dateEvent: true,
-                    location: true,
+                    namaEvent: true,
+                    tanggal: true,
                 }
             })
         ]);
 
-        res.status(200).json({
+        // Kirim respons persis dengan format JSON yang kamu minta
+        return res.status(200).json({
             success: true,
             message: "Data dashboard berhasil diambil",
             data: {
                 stats: {
                     totalEvent,
                     totalPembicara,
-                    totalKategori,
+                    totalKategori
                 },
                 upcomingEvents
             }
         });
+
     } catch (error) {
-        console.error("Dashboard Error:", error);
-        res.status(500).json({ success: false, message: "Terjadi kesalahan saat mengambil data dashboard", error });
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Terjadi kesalahan saat mengambil data dashboard",
+            error: error
+        });
     }
 };
