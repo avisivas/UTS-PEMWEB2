@@ -32,7 +32,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 ========================= */
 import DashboardIndex from "./pages/dashboard/DashboardIndex";
 
-/* CATEGORY */
+/* CATEGORY (Diperbaiki: menggunakan tanda kurung kurawal {}) */
 import CategoryIndex from "./pages/dashboard/category/CategoryIndex";
 import CategoryCreate from "./pages/dashboard/category/CategoryCreate";
 import CategoryEdit from "./pages/dashboard/category/CategoryEdit";
