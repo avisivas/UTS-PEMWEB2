@@ -5,6 +5,7 @@
     import categoryRoutes from "./routes/categoryRoute.js";
     import pembicaraRoutes from "./routes/pembicaraRoute.js";
     import dashboardRoutes from "./routes/dashboardRoute.js";
+    import authRoutes from "./routes/authRoute.js";
 
     const app = express();
     const port = 3000;
@@ -20,6 +21,7 @@
     app.use("/categories", categoryRoutes);
     app.use("/pembicara", pembicaraRoutes);
     app.use("/dashboard", dashboardRoutes);
+    app.use("/auth", authRoutes);
 
     app.listen(port, () => {
         console.log(`Server is running on http://localhost:${port}`);

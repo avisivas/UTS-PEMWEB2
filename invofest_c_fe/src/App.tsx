@@ -50,6 +50,11 @@ import EditEvent from "./pages/dashboard/event/EditEvent";
 /* BIODATA */
 import Biodata from "./pages/dashboard/biodata/Biodata";
 
+/* USER */
+import UserIndex from "./pages/dashboard/users/UserIndex";
+import UserCreate from "./pages/dashboard/users/UserCreate";
+import UserUpdate from "./pages/dashboard/users/UserUpdate";
+
 function App() {
     return (
         <BrowserRouter>
@@ -181,6 +186,25 @@ function App() {
                         <Route
                             path="/dashboard/biodata"
                             element={<Biodata />}
+                        />
+
+                        {/* =========================
+                            USER
+                        ========================= */}
+
+                        <Route
+                            path="/dashboard/user"
+                            element={<UserIndex />}
+                        />
+
+                        <Route
+                            path="/dashboard/user/create"
+                            element={<UserCreate />}
+                        />
+
+                        <Route
+                            path="/dashboard/user/edit/:id"
+                            element={<UserUpdate />}
                         />
 
                     </Route>
